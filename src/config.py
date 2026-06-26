@@ -26,7 +26,8 @@ Rules:
 4. Reply in the user's language (English or Persian).
 """
 TOOLS = [
-    fetch_live_gold_price
+    fetch_live_gold_price,
+    fetch_dxy_proxy
 ]
 agent_config = types.GenerateContentConfig(
     system_instruction=SYSTEM_INSTRUCTION,

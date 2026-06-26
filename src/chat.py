@@ -6,7 +6,14 @@ def start_chat():
     Starts a terminal chat session
     """
     from .config import chat
-    print("--- Gemini 2.5 flash ---")
+    print(
+        """
+        --- Gemini 2.5 flash ---
+        you can ask about:
+        1. current gold price
+        2. current DXY index
+        """
+    )
     while True:
         try:
             user_input = input("You: ")
