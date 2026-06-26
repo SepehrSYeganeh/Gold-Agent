@@ -3,3 +3,4 @@
 .venv/
 *.pdf
 .env
+test.py
