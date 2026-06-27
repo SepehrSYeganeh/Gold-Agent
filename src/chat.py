@@ -9,9 +9,7 @@ def start_chat():
     print(
         """
         --- Gemini 2.5 flash ---
-        you can ask about:
-        1. current gold price
-        2. current DXY index
+        <list things user can ask>
         """
     )
     while True:
@@ -28,7 +26,7 @@ def start_chat():
 
         except errors.APIError as e:
             # This catches specific Google API errors (Rate limits, invalid key, blocked content)
-            print(f"\n[API Error]: {e.message} (Status Code: {e.code})")
+            print(f"\n[Gemini API Error]: {e.message} (Status Code: {e.code})")
             if e.code == 429:
                 print("-> You've hit the free tier rate limit. Please wait a moment before trying again.\n")
             elif e.code == 403:

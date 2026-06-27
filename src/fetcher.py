@@ -1,5 +1,4 @@
 import yfinance as yf
-import pandas as pd
 
 
 def fetch_live_gold_price(ticker: str = "GC=F") -> dict:
@@ -29,10 +28,7 @@ def fetch_live_gold_price(ticker: str = "GC=F") -> dict:
             raise ValueError("Yahoo Finance returned an empty dataset for gold.")
 
     except Exception as e:
-        return {
-            "status": "error",
-            "message": f"Failed to fetch live gold data: {str(e)}"
-        }
+        return {"error": f"[yfinance] Failed to fetch live gold data: {str(e)}"}
 
 
 def fetch_dxy_proxy(ticker: str = "DX-Y.NYB") -> dict:
@@ -57,4 +53,23 @@ def fetch_dxy_proxy(ticker: str = "DX-Y.NYB") -> dict:
         }
 
     except Exception as e:
-        return {"error": f"Failed to fetch DXY indicators: {str(e)}"}
+        return {"error": f"[yfinance] Failed to fetch DXY indicators: {str(e)}"}
+
+
+def fetch_gold_macro_news() -> dict:
+    """
+    Fetches the latest macroeconomic news relevant to Gold markets
+    """
+    from .config import tavily
+    try:
+        search_query = "gold price macroeconomics US interest rates DXY inflation geopolitics news"
+        response = tavily.get_search_context(
+            query=search_query,
+            max_results=3,
+            search_depth="advanced"
+        )
+
+        return {"macro_news_context": response}
+
+    except Exception as e:
+        return {"error": f"[Tavily] Failed to aggregate news data: {str(e)}"}

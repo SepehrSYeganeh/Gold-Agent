@@ -2,14 +2,19 @@ import os
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from tavily import TavilyClient
 from .fetcher import *
-
 
 # Load environment variables
 load_dotenv()
 if not os.getenv("GEMINI_API_KEY"):
     raise ValueError("GEMINI_API_KEY is missing from your .env file!")
+if not os.getenv("TAVILY_API_KEY"):
+    raise ValueError("TAVILY_API_KEY is missing from your .env file!")
 
+# Initialize Tavily
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+tavily = TavilyClient(api_key=TAVILY_API_KEY)
 
 # Initialize Gemini
 gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -27,7 +32,8 @@ Rules:
 """
 TOOLS = [
     fetch_live_gold_price,
-    fetch_dxy_proxy
+    fetch_dxy_proxy,
+    fetch_gold_macro_news
 ]
 agent_config = types.GenerateContentConfig(
     system_instruction=SYSTEM_INSTRUCTION,
