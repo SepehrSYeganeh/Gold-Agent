@@ -18,6 +18,7 @@ tavily = TavilyClient(api_key=TAVILY_API_KEY)
 
 # Initialize Gemini
 gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+HISTORY_FILE = "chat_history.jsonl"
 # CHAT_MODEL_NAME = "gemini-2.5-flash"
 CHAT_MODEL_NAME = "gemini-2.5-flash-lite"
 EMBEDDING_MODEL_NAME = "gemini-embedding-2"

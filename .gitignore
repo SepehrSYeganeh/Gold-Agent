@@ -6,3 +6,4 @@
 test.py
 test.ipynb
 __pycache__/
+chat_history.jsonl

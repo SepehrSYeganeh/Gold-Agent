@@ -1,21 +1,46 @@
 from google.genai import errors
+import json
+from .config import chat, CHAT_MODEL_NAME, HISTORY_FILE
+
+
+def _append_session_to_disk():
+    try:
+        current_session_messages = chat.get_history()
+
+        with open(HISTORY_FILE, "a", encoding="utf-8") as f:
+            for message in current_session_messages:
+                role = message.role
+                text = (
+                    message.parts[0].text
+                    if message.parts and hasattr(message.parts[0], "text")
+                    else ""
+                )
+
+                log_entry = {"role": role, "content": text}
+
+                f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+
+    except Exception as e:
+        print(f"\n[System Error]: Could not append history to disk: {e}")
 
 
 def start_chat():
     """
     Starts a terminal chat session
     """
-    from .config import chat, CHAT_MODEL_NAME
     print(
         f"""
         --- {CHAT_MODEL_NAME} ---
         <list things user can ask>
+        Type 'exit' to quit.
         """
     )
     while True:
         try:
             user_input = input("You: ")
+
             if user_input.strip().lower() == "exit":
+                _append_session_to_disk()
                 break
 
             if not user_input.strip():
@@ -38,4 +63,5 @@ def start_chat():
 
         except KeyboardInterrupt:
             print("\nGoodbye!")
+            _append_session_to_disk()
             break
