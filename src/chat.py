@@ -34,6 +34,7 @@ def start_chat():
         I am your Gold Market Analyst. Ask me:
         - "What is the current price of gold?"
         - "What is the status of the DXY?"
+        - "What is the current gold trend?"
         - "Show me the gold price trend chart."
         - "What are the major economic news events impacting gold?"
         - "What is your forecast for gold's short-term behavior?"

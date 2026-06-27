@@ -3,8 +3,6 @@
 .venv/
 *.pdf
 .env
-test.py
-test.ipynb
 __pycache__/
 chat_history.jsonl
-GoldAgent-report-SepehrSY.docx
+GoldAgent-report-SepehrSYeganeh.docx

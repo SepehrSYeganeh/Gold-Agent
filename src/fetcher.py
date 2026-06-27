@@ -2,7 +2,7 @@ import yfinance as yf
 from matplotlib import pyplot as plt
 
 
-def fetch_live_gold_price(ticker: str = "GC=F") -> dict:
+def fetch_recent_gold_price(ticker: str = "GC=F") -> dict:
     """
     Fetches the most recent live market price metrics for Gold
     """
@@ -35,7 +35,7 @@ def fetch_live_gold_price(ticker: str = "GC=F") -> dict:
         return {"error": f"[yfinance] Failed to fetch live gold data: {str(e)}"}
 
 
-def fetch_dxy_proxy(ticker: str = "DX-Y.NYB") -> dict:
+def fetch_recent_dxy(ticker: str = "DX-Y.NYB") -> dict:
     """
     Fetches the most recent closing price indicators for the US Dollar Index (DXY)
     """
