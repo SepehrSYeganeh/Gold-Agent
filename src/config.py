@@ -13,8 +13,7 @@ if not os.getenv("TAVILY_API_KEY"):
     raise ValueError("TAVILY_API_KEY is missing from your .env file!")
 
 # Initialize Tavily
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
-tavily = TavilyClient(api_key=TAVILY_API_KEY)
+tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
 # Initialize Gemini
 gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
