@@ -5,10 +5,10 @@ def start_chat():
     """
     Starts a terminal chat session
     """
-    from .config import chat
+    from .config import chat, CHAT_MODEL_NAME
     print(
-        """
-        --- Gemini 2.5 flash ---
+        f"""
+        --- {CHAT_MODEL_NAME} ---
         <list things user can ask>
         """
     )

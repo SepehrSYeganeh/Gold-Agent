@@ -1,4 +1,5 @@
 import yfinance as yf
+from matplotlib import pyplot as plt
 
 
 def fetch_live_gold_price(ticker: str = "GC=F") -> dict:
@@ -25,7 +26,10 @@ def fetch_live_gold_price(ticker: str = "GC=F") -> dict:
                 "timestamp": str(data.index[-1].date())
             }
         else:
-            raise ValueError("Yahoo Finance returned an empty dataset for gold.")
+            return {
+                "status": "error",
+                "message": "Yahoo Finance returned an empty dataset for gold."
+            }
 
     except Exception as e:
         return {"error": f"[yfinance] Failed to fetch live gold data: {str(e)}"}
@@ -40,7 +44,10 @@ def fetch_dxy_proxy(ticker: str = "DX-Y.NYB") -> dict:
         data = dxy.history(period="5d", interval="1d")
 
         if data.empty:
-            raise ValueError("Yahoo Finance returned an empty dataset for DXY.")
+            return {
+                "status": "error",
+                "message": "Yahoo Finance returned an empty dataset for DXY."
+            }
 
         latest_row = data.iloc[-1]
         return {
@@ -54,6 +61,76 @@ def fetch_dxy_proxy(ticker: str = "DX-Y.NYB") -> dict:
 
     except Exception as e:
         return {"error": f"[yfinance] Failed to fetch DXY indicators: {str(e)}"}
+
+
+def fetch_gold_trend(ticker: str = "GC=F") -> dict:
+    """"
+    Fetches historical data for Gold Futures (GC=F) over the last 7 trading days,
+    calculates directional and numeric trends.
+    """
+    try:
+        gold_ticker = yf.Ticker(ticker)
+        data = gold_ticker.history(period="7d", interval="15m")
+
+        # Check if we have sufficient data points to compute a trend
+        if data.empty:
+            return {
+                "status": "error",
+                "message": "Gold historical trend data is currently unavailable."
+            }
+
+        prices = data['Close'].tolist()
+        start_price = prices[0]
+        end_price = prices[-1]
+        price_diff = end_price - start_price
+        pct_change = (price_diff / start_price) * 100
+
+        # Determine strict directional market sentiment
+        direction = "UPWARD (Bullish)" if price_diff > 0 else "DOWNWARD (Bearish)"
+        if abs(pct_change) < 0.2:
+            direction = "SIDEWAYS (Neutral)"
+
+        return {
+            "status": "success",
+            "direction": direction,
+            "start_price": round(start_price, 2),
+            "end_price": round(end_price, 2),
+            "net_change": round(price_diff, 2),
+            "percentage_change": round(pct_change, 2)
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Failed to compute trend metrics: {str(e)}"
+        }
+
+
+def plot_gold_price(ticker: str = "GC=F") -> dict:
+    """
+    Fetches historical data for Gold Futures (GC=F) over the last 7 trading days and plots it
+    """
+    try:
+        gold_ticker = yf.Ticker(ticker)
+        data = gold_ticker.history(period="7d", interval="15m")
+        fig, ax = plt.subplots(figsize=(12, 6))
+        ax.plot(data.index, data['Close'], label='Gold Price', color='#FFD700')
+        ax.set_title('Gold Futures (GC=F) – Last 7 Days', fontsize=14)
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Price (USD)')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
+
+        return {"status": "success"}
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Failed to plot the trend: {str(e)}"
+        }
 
 
 def fetch_gold_macro_news() -> dict:
