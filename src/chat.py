@@ -31,10 +31,17 @@ def start_chat():
     print(
         f"""
         --- {CHAT_MODEL_NAME} ---
-        <list things user can ask>
+        I am your Gold Market Analyst. Ask me:
+        - "What is the current price of gold?"
+        - "What is the status of the DXY?"
+        - "Show me the gold price trend chart."
+        - "What are the major economic news events impacting gold?"
+        - "What is your forecast for gold's short-term behavior?"
+
         Type 'exit' to quit.
         """
     )
+
     while True:
         try:
             user_input = input("You: ")
