@@ -4,6 +4,9 @@ from .config import chat, CHAT_MODEL_NAME, HISTORY_FILE
 
 
 def _append_session_to_disk():
+    """
+    updates the chat history file
+    """
     try:
         current_session_messages = chat.get_history()
 

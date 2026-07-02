@@ -5,4 +5,4 @@
 .env
 __pycache__/
 chat_history.jsonl
-GoldAgent-report-SepehrSYeganeh.docx
+report/
