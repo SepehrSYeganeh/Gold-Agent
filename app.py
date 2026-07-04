@@ -1,4 +1,4 @@
-from src import start_chat
+from src import render_chat
 
 if __name__ == '__main__':
-    start_chat()
+    render_chat()

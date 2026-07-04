@@ -1,3 +1,3 @@
-from .chat import start_chat
+from .chat import render_chat
 
-__all__ = ["start_chat"]
+__all__ = ["render_chat"]

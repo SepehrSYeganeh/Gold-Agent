@@ -1,5 +1,6 @@
 import yfinance as yf
 from matplotlib import pyplot as plt
+import streamlit as st
 
 
 def fetch_recent_gold_price(ticker: str = "GC=F") -> dict:
@@ -113,6 +114,7 @@ def plot_gold_price(ticker: str = "GC=F") -> dict:
     try:
         gold_ticker = yf.Ticker(ticker)
         data = gold_ticker.history(period="7d", interval="15m")
+
         fig, ax = plt.subplots(figsize=(12, 6))
         ax.plot(data.index, data['Close'], label='Gold Price', color='#FFD700')
         ax.set_title('Gold Futures (GC=F) – Last 7 Days', fontsize=14)
@@ -122,7 +124,8 @@ def plot_gold_price(ticker: str = "GC=F") -> dict:
         ax.grid(True, alpha=0.3)
         plt.xticks(rotation=45)
         plt.tight_layout()
-        plt.show()
+        st.pyplot(fig)
+        plt.close(fig)
 
         return {"status": "success"}
 
@@ -137,10 +140,10 @@ def fetch_gold_macro_news() -> dict:
     """
     Fetches the latest macroeconomic news relevant to Gold markets
     """
-    from .config import tavily
+    from .config import tavily_client
     try:
         search_query = "gold price macroeconomics US interest rates DXY inflation geopolitics news"
-        response = tavily.get_search_context(
+        response = tavily_client.get_search_context(
             query=search_query,
             max_results=3,
             search_depth="advanced"
