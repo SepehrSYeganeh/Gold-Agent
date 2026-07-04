@@ -144,3 +144,7 @@ def start_chat():
 #             print("\nGoodbye!")
 #             _append_session_to_disk()
 #             break
+
+
+def test():
+    pass
